@@ -1,0 +1,8 @@
+{% extends  "users/base.html" %}
+{% block content %}
+   <ul class="list-group material_list_group">
+   {% for class in classes%}
+	<li class="list-group-item material_list_group_item"><a href="{% url 'class-students' class.id %}" >{{ class.standard }}</a></li>
+   {% endfor %}
+</ul>
+{% endblock %}

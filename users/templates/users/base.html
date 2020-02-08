@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'users/main.css' %}">
+
+    {% if title %}
+        <title>My School - {{ title }}</title>
+    {% else %}
+        <title>My School</title>
+    {% endif %}
+</head>
+
+
+
+<body>
+
+
+    <header class="site-header">
+      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+        <div class="container">
+          <a class="navbar-brand mr-4" href="{% url 'home-page' %}">My School</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarToggle">
+            <div class="navbar-nav mr-auto">
+              <a class="nav-item nav-link" href="{% url 'home-page' %}">Home</a>
+              {% comment %} <a class="nav-item nav-link" href="{% url 'blog-about' %}">About</a> {% endcomment %}
+            </div>
+            <!-- Navbar Right Side -->
+            <div class="navbar-nav">
+               {% if user.is_authenticated %}
+                {% if user.profile.role == 3%}
+                <a class="nav-item nav-link" href="{% url 'profile'%}">{{user.username}}</a>
+                <a class="nav-item nav-link" href="{% url 'logout'%}">Logout</a>
+                <a class="nav-item nav-link" href="{% url 'user-type'%}">Add a User</a>
+                {% elif user.profile.role == 2 or 1 %}
+                <a class="nav-item nav-link" href="{% url 'profile'%}">{{user.username}}</a>
+                <a class="nav-item nav-link" href="{% url 'logout'%}">Logout</a>
+                {% else %}
+                
+                {% endif %}
+               {% else %}
+
+                <a class="nav-item nav-link" href="{% url 'login'%}">Login</a>
+                
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+
+
+    <main class="">
+
+
+      <div class="sidebarcontent">
+          <h3>My School</h3>
+            <p class='text-muted'>You can put any information here you'd like.
+              <ul class="list-group">
+              {% if user.profile.role == 1  %}
+                
+                  <li class="list-group-item list-group-item-dark nav-link"> <a href="{% url 'classes'%}">Classes</a> </li>
+                  <li class="list-group-item list-group-item-dark nav-link"> <a href="{% url 'students'%}">Students</a> </li>
+                  
+                {% elif user.profile.role == 2 or 3 %}
+                  <li class="list-group-item list-group-item-dark nav-link"> <a href="{% url 'classes'%}">Classes</a> </li>
+                  <li class="list-group-item list-group-item-dark nav-link"> <a href="{% url 'students'%}">Students</a> </li>
+                  <li class="list-group-item list-group-item-dark nav-link"> <a href="{% url 'teachers'%}">Teachers</a> </li>
+                 
+                {% else %}
+                  <li class="list-group-item list-group-item-dark nav-link"> <a >Login to view</a> </li>
+                
+              {% endif %}    
+                {% comment %} <li class="list-group-item list-group-item-light">Admin</li> {% endcomment %}
+              </ul>
+            </p>
+      </div>
+
+
+
+      <div class="blockcontent">
+        <div >
+          {% block content %}{% endblock %}
+        </div>
+      </div>
+    </main>
+
+</body>
+</html>

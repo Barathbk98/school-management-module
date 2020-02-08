@@ -1,0 +1,52 @@
+{% extends "users/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="">
+  <div class="">
+
+<table class="table-striped  ">
+  <thead>
+   {% comment %} <a href="" class="btn btn-primary pull-right"><b>+</b> Add new Teacher</a> {% endcomment %}
+        <tr>
+            <th scope = 'col'>ID</th>
+            <th scope = 'col'>Name</th>
+            <th scope = 'col'>Phone no</th>
+            <th scope = 'col'>Class</th>
+            <th scope = 'col'>Experience</th>
+            <th class="text-center" scope = 'col'>Action</th>
+        </tr>
+  </thead>
+    {% for teacher in teachers %}
+      <tr>
+                <td class="text-center">{{ teacher.id }}</td>
+                <td class="text-center">{{ teacher.user.username }}</td>
+                <td class="text-center">{{ teacher.phone_no }}</td>
+                <td class="text-center">{{ teacher.standard }}</td>
+                <td class="text-center">{{ teacher.total_years_of_exp }}</td>
+                
+               {% if user.username == teacher.user.username %}
+                <td class="text-center"><a class='btn btn-info btn-xs'  href={% url 'user-update' teacher.id %} ><span class="glyphicon glyphicon-edit"></span> Edit</a></td>
+              
+              {% elif user.profile.role == 3 %}
+                <td class="text-center">
+                  <a class='btn btn-info btn-xs'  href={% url 'user-update' teacher.id  %} >
+                    <span class="glyphicon glyphicon-edit"></span> Edit</a> 
+                  <a  href="{% url 'teacherDeleteView' teacher.id%}" class="btn btn-danger btn-xs">
+                  <span class="glyphicon glyphicon-remove"></span> Del</a>
+                </td>
+              {% else%}
+
+
+              {% endif %}
+      </tr>
+</div>
+</div>
+    {% endfor %}
+{% endblock content %}
+
+
+
+
+
+
+
